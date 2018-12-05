@@ -1,0 +1,23 @@
+version: '2'                                                                                                                                                                                                    
+                                                                                                                                                                                                                
+networks:                                                                                                                                                                                                       
+  outside:                                                                                                                                                                                                      
+    external: true                                                                                                                                                                                              
+                                                                                                                                                                                                                
+services:                                                                                                                                                                                                       
+                                                                                                                                                                                                                
+  app:                                                                                                                                                                                                          
+    build: ./docker-tcp-proxy                                                                                                                                                                                   
+    restart: always                                                                                                                                                                                             
+    container_name: tcp_over_proxy                                                                                                                                                                                    
+    expose:                                                                                                                                                                                                     
+      -  80                                                                                                                                                                                                     
+    environment:                                                                                                                                                                                                
+      - LISTEN=:80                                                                                                                                                                                              
+      - TALK=example.domain:8081                                                                                                                                                                          
+      - VIRTUAL_HOST=example.domain                                                                                                                                                                       
+      - LETSENCRYPT_HOST=example.domain                                                                                                                                                                   
+      - LETSENCRYPT_EMAIL=admin@example.com                                                                                                                                                                   
+      - LETSENCRYPT_TEST=false                                                                                                                                                                                    
+    networks:                                                                                                                                                                                                   
+      - outside 
